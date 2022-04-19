@@ -27,6 +27,11 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import API from "@src/api";
 import { visuallyHidden } from '@mui/utils';
 
+// filter 
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+
+
 function createData(name, calories, fat, carbs, protein) {
   return {
     name,
@@ -180,8 +185,13 @@ EnhancedTableHead.propTypes = {
 };
 
 const EnhancedTableToolbar = (props) => {
-  const { numSelected } = props;
+  const { numSelected, threadList, setValue, value } = props;
+  
+  const options = threadList && threadList.map((output, index) => ({label : output.display_name, value: output.threadcategory_id}))
 
+  const [inputValue, setInputValue] = React.useState('');
+
+console.log(inputValue)
   return (
     <Toolbar
       sx={{
@@ -201,7 +211,25 @@ const EnhancedTableToolbar = (props) => {
         >
         User Comments
         </Typography>
-        {numSelected > 0 ? (
+        <Autocomplete
+      disablePortal
+      value={value}
+      onChange={(event, newValue) => {
+        setValue(newValue);
+      }}
+      inputValue={inputValue}
+      onInputChange={(event, newInputValue) => {
+        setInputValue(newInputValue);
+      }}
+      id="combo-box-demo"
+      options={options}
+      sx={{ width: 300 }}
+      renderInput={(params) => {
+      return (<TextField {...params} label="Movie" />)
+         }
+     }
+    />
+        {numSelected < 0 ? (
         <Tooltip title="Delete">
           <IconButton>
             <DeleteIcon />
@@ -245,7 +273,12 @@ export default function Comments(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [getComments, setComments] = React.useState([])
   const [opened, setDialogOpen] = React.useState(false)
+  const [threadList, setThread] = React.useState([])
+  const [value, setValue] = React.useState({});
 const [ ID, setId] = React.useState('')
+console.log(value)
+
+console.log("threadList", threadList)
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -309,6 +342,19 @@ const handleDialogOpen = (detail) => {
             placement: "bottomRight",
         });
     });
+  }, [threadList])
+
+  React.useEffect(() => {
+    API.getThredList()
+    .then(response => response)
+    .then(result => setThread(result && result.data))
+    .catch((ex) => {
+        // setTableLoading(false);
+        notification.error({
+            message: ex,
+            placement: "bottomRight",
+        });
+    });
   }, [])
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
@@ -321,7 +367,7 @@ const handleDialogOpen = (detail) => {
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
       {opened === true ? <FullScreenDialog ID={ID}/> : ''}
-        <EnhancedTableToolbar numSelected={selected.length} />
+        <EnhancedTableToolbar numSelected={selected.length} threadList={threadList} setValue={setValue} value={value}/>
         <TableContainer>
           <Table
             sx={{ width:"100%", margin:"30px" }}
@@ -400,4 +446,16 @@ const handleDialogOpen = (detail) => {
           component="div"
           count={getComments.length}
           rowsPerPage={rowsPerPage}
-          pa
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        /> */}
+      </Paper>
+      <FormControlLabel
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        label="Dense padding"
+      />
+    </Box>
+    </div>);
+}
+

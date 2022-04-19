@@ -170,6 +170,32 @@ export const searchUser = (data)=>{
 // }));
 // };
 
+export const  getThredList = async(data) => {
+  // let base64 = require('base-64')
+  const url = ENDPOINTS.thread.POST.THREAD;
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Basic YXN1V29ya3M6ZXJnYmhqd2Z2Ymhqa2VndmZ2a2diaGpiaGprc2ZkZ3ZzZGpmdmhua2xobmprbGhqa1NKS0hoamtCSEpLYmhqa2hqa2tqQkhKdkhKS0JISks=");
+  myHeaders.append("Content-Type", "application/json");
+  
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: JSON.stringify({
+    userid:"",
+    status:"",
+    page_no:0,
+    page_limit:10,
+    sort_by:"",
+    search_by:"",
+    thread_categoryid:""
+}),
+  redirect: 'follow'
+};
+  const req = await fetch(url, requestOptions);
+  const response = await req.json();
+  return response;
+}
+
 export const  postCommetData = async(channel) => {
   // let base64 = require('base-64')
   const url = ENDPOINTS.content.POST.COMMENT;
