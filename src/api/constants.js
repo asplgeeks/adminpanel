@@ -1,0 +1,3 @@
+// AUTH
+export const AUTH_BASIC = `Basic YXN1V29ya3M6ZXJnYmhqd2Z2Ymhqa2VndmZ2a2diaGpiaGprc2ZkZ3ZzZGpmdmhua2xobmprbGhqa1NKS0hoamtCSEpLYmhqa2hqa2tqQkhKdkhKS0JISks=`;
+

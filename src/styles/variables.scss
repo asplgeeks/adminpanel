@@ -1,0 +1,58 @@
+:root {
+  --primaryColor: #3189e1;
+  --headingTextColor: #707070;
+  --subTextcolor: #bbbbbb;
+  --backgroundColor: #ffffff;
+
+  --articleDeckBgColor: #ffffff;
+
+  --tabColor: #707070;
+
+  --cardBgColor: #eeeeee;
+  --cardShadowColor: #00000029;
+  --cardBorderColor: #dddddd;
+
+  --timeStampColor: #999999;
+  --articleTitleColor: #000000;
+  --articleDescriptionColor: #444444;
+
+  --searchBarBgColor: #7676801f;
+
+  --borderBottomColor: #dddddd;
+
+  :global {
+    body,
+    .swiper-container {
+      background-color: #ffffff;
+    }
+  }
+}
+
+[data-theme="dark"] {
+  --headingTextColor: #f1f1f1;
+  --subTextcolor: #e4e4e4;
+  --backgroundColor: #1d1d1d;
+
+  --articleDeckBgColor: #2f2f2f7a;
+
+  --tabColor: #f1f1f1;
+
+  --cardBgColor: #353535;
+  --cardShadowColor: #8c8c8c;
+  --cardBorderColor: transparent;
+
+  --timeStampColor: #999999;
+  --articleTitleColor: #ffffff;
+  --articleDescriptionColor: #f5f5f5;
+
+  --searchBarBgColor: #c7c7c71f;
+
+  --borderBottomColor: #000000;
+
+  :global {
+    body,
+    .swiper-container {
+      background-color: #1d1d1d;
+    }
+  }
+}

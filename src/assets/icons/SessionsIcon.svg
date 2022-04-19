@@ -1,0 +1,9 @@
+<svg class="sideMenuIcon" viewBox="0 0 512 512"><rect x="48" y="80" width="416" height="272" rx="32" ry="32" class="SessionsIcon_svg__ionicon-fill-none SessionsIcon_svg__ionicon-stroke-width" style="
+    stroke-width: 32px;
+    stroke: black;
+    fill: white;
+"></rect><path d="M256 416v-64m0-272V48m144 416l-32-112M112 464l32-112" class="SessionsIcon_svg__ionicon-fill-none SessionsIcon_svg__ionicon-stroke-width" style="
+    stroke: black;
+    fill: black;
+    stroke-width: 32px;
+"></path></svg>

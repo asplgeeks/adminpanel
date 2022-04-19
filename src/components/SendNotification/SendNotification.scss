@@ -1,0 +1,16 @@
+:global {
+  .ant-popover-inner {
+    border-radius: 10px;
+  }
+}
+
+.SendNotification {
+  &Icon {
+    width: 38px;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    margin-left: 10px;
+  }
+}

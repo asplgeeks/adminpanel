@@ -1,0 +1,97 @@
+{
+  "name": "admin-console",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": ".",
+  "scripts": {
+    "start": "webpack serve --config config/webpack.dev.js",
+    "build": "webpack --config config/webpack.prod.js",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@ant-design/icons": "^4.2.2",
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mui/icons-material": "^5.6.1",
+    "@mui/material": "^5.6.1",
+    "@svgr/webpack": "^5.4.0",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "antd": "^4.7.3",
+    "antd-img-crop": "^3.14.2",
+    "css-loader": "^5.0.0",
+    "dayjs": "^1.10.6",
+    "draft-js": "^0.11.7",
+    "draftjs-to-html": "^0.9.1",
+    "file-loader": "^6.1.1",
+    "firebase": "^8.0.0",
+    "html-to-draftjs": "^1.5.0",
+    "moment": "^2.29.1",
+    "node-sass": "^4.14.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-draft-wysiwyg": "^1.14.7",
+    "react-highlight-words": "^0.16.0",
+    "react-hook-form": "^7.30.0",
+    "react-redux": "^7.2.1",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-router-transition": "^2.0.0",
+    "react-scripts": "4.0.0",
+    "react-spring": "^8.0.27",
+    "react-sticky": "^6.0.3",
+    "react-transition-group": "^4.4.1",
+    "react-use-gesture": "^7.0.16",
+    "redux": "^4.0.5",
+    "sass-loader": "^10.0.4",
+    "style-loader": "^2.0.0",
+    "styled-components": "^5.2.0",
+    "svg-react-loader": "^0.4.6",
+    "svg-url-loader": "^6.0.0",
+    "swiper": "^6.3.4",
+    "web-vitals": "^0.2.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-proposal-export-default-from": "^7.12.1",
+    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
+    "@babel/preset-env": "^7.12.1",
+    "@babel/preset-react": "^7.12.1",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "html-webpack-plugin": "^4.5.0",
+    "lodash-es": "^4.17.15",
+    "mini-css-extract-plugin": "^1.2.0",
+    "path": "^0.12.7",
+    "react-hot-loader": "^4.13.0",
+    "react-inlinesvg": "^2.1.1",
+    "svg-inline-loader": "^0.8.2",
+    "url-loader": "^4.1.1",
+    "webpack": "^5.2.0",
+    "webpack-cli": "^4.1.0",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-dev-server": "^3.11.0",
+    "webpack-merge": "^5.2.0"
+  }
+}

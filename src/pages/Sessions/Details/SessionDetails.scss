@@ -1,0 +1,73 @@
+.SessionDetailsData {
+  &Container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  padding: 15px 15px 4px;
+  flex-basis: 50%;
+
+  &Biography {
+    background: #ffffff;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-top: 15px;
+  }
+
+  &Label {
+    font-weight: 500;
+    font-size: 14px;
+    color: #444444;
+  }
+
+  &Value {
+    font-size: 13px;
+    color: #444444;
+  }
+
+  &Collection {
+    display: flex;
+    flex-wrap: wrap;
+    background: #ffffff;
+    padding: 5px 10px;
+    border-radius: 10px;
+  }
+
+  &Checkbox {
+    display: block;
+    padding: 6px;
+    position: relative;
+    cursor: pointer;
+
+    label {
+      cursor: pointer;
+      margin-left: 10px;
+      width: 430px;
+      // position: absolute;
+      height: 100%;
+    }
+  }
+}
+
+:global {
+  .ant-checkbox-group-item {
+    display: block;
+    padding: 6px;
+  }
+
+  .test .ant-tabs-content-holder {
+    height: 330px;
+    overflow-y: auto;
+  }
+
+  .test .ant-empty {
+    display: flex;
+    height: 330px;
+    flex-direction: column;
+    justify-content: center;
+    width: 310px;
+    align-items: center;
+    margin: 0 auto;
+  }
+}

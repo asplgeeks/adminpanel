@@ -1,0 +1,161 @@
+body {
+  overflow-y: hidden;
+}
+
+html,
+body,
+#root,
+.ant-layout.ant-layout-has-sider {
+  height: 100%;
+}
+
+.switch-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.customSider {
+  background: #ffffff !important;
+  border-radius: 10px;
+  margin: 10px;
+}
+
+.switch-wrapper > div {
+  height: 100%;
+}
+
+.transition-item {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  height: 100%;
+  left: 0;
+}
+
+.ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn,
+.ant-tabs-tab:hover {
+  color: #ee3224 !important;
+}
+
+.ant-spin-dot-item,
+.ant-tabs-ink-bar {
+  background: #ee3224 !important;
+}
+
+.ant-table-placeholder {
+  background: white;
+}
+
+button {
+  border-radius: 5px !important;
+}
+
+.ant-btn-primary {
+  font-weight: 500 !important;
+  background: #ee3224 !important;
+  box-shadow: none !important;
+  border: #ee3224 !important;
+}
+
+.ant-btn-primary:hover,
+.ant-btn-primary:focus {
+  background: #ee3224;
+  border-color: #ee3224;
+}
+
+h2 {
+  font-size: 1.7rem !important;
+  margin-bottom: 5px !important;
+}
+
+* {
+  transition: color 0.3s ease, background-color 0.3s ease, background 0.3s ease;
+}
+
+.ant-table.ant-table-middle .ant-table-title,
+.ant-table.ant-table-middle .ant-table-footer,
+.ant-table.ant-table-middle .ant-table-thead > tr > th,
+.ant-table.ant-table-middle .ant-table-tbody > tr > td,
+.ant-table.ant-table-middle tfoot > tr > th,
+.ant-table.ant-table-middle tfoot > tr > td {
+  padding: 12px 15px !important;
+}
+
+.ant-pagination.mini .ant-pagination-options-size-changer {
+  display: none !important;
+}
+
+.ant-modal-content {
+  border-radius: 8px !important;
+}
+
+.ant-modal-header {
+  border: none !important;
+  padding: 24px 24px 12px !important;
+  border-radius: 8px 8px 0 0 !important;
+}
+
+.ant-modal-title {
+  font-size: 18px !important;
+}
+
+.ant-modal-footer {
+  border: none !important;
+  padding: 12px 24px 24px !important;
+}
+
+.ant-select-selector,
+.ant-picker {
+  border-radius: 6px !important;
+}
+
+.accordion {
+  max-width: 600px;
+  margin: 2rem auto;
+}
+
+.accordion-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.accordion-title:hover {
+  background-color: #ffffff;
+}
+
+/* .accordion-title,
+.accordion-content {
+  padding: 1rem;
+} */
+
+.accordion-content {
+  background-color: #ffffff;
+}
+
+.ant-dropdown{
+  max-height: 300px;
+  overflow: scroll;
+}

@@ -1,0 +1,82 @@
+.SideMenu {
+  background: #ffffff !important;
+  border-radius: 10px;
+  margin: 10px;
+
+  &Icon {
+    width: 20px;
+    margin-right: 10px;
+    transform: translateY(4px);
+  }
+  &Item {
+    transition: all 0.1s ease;
+    border-radius: 5px;
+    color: black !important;
+
+    &:hover,
+    &Active {
+      background-color: #ee3224 !important;
+      cursor: pointer;
+      color: white !important;
+
+      svg {
+        path {
+          fill: white;
+        }
+      }
+    }
+
+    &Bottom {
+      position: absolute !important;
+      bottom: 5px;
+      border-radius: 10px;
+      margin: 10px auto;
+      width: 180px !important;
+      left: 9px !important;
+
+      svg {
+        path {
+          fill: transparent !important;
+        }
+      }
+    }
+
+    &Top {
+      position: absolute !important;
+      top: 0;
+      pointer-events: none;
+      padding: 15px !important;
+      height: 75px !important;
+      display: flex;
+      align-items: center;
+
+      svg {
+        width: 100%;
+        margin: 0;
+        transform: scale(0.4);
+      }
+    }
+  }
+}
+
+:global {
+  .sideMenuIcon {
+    width: 20px;
+    margin-right: 10px;
+    transform: translateY(4px);
+  }
+  .ant-layout-sider-children {
+    display: flex;
+    align-items: center;
+  }
+  .ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal)
+    .ant-menu-item-selected {
+    background-color: #ee3224 !important;
+    color: white !important;
+    svg {
+      path {
+        fill: white;
+      }
+    }
+  }
+}

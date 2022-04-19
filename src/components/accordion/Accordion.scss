@@ -1,0 +1,15 @@
+@import "../../styles/variables.scss";
+
+.Accordion{
+    &Icon{
+    font-size: x-large;
+    margin-top: -8px;
+}
+&Reset{
+    margin-left: auto;
+    margin-right: 3%;
+    color: var(--primarycolor);
+    text-decoration: underline;
+    font-weight: 500;
+}
+  }
