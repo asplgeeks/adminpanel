@@ -33,6 +33,22 @@ export const content = {
   }
 };
 
+/* Content */
+export const category = {
+  // GET: {
+  //   CONTENT_LIST: `${BASE_URL}admin/contentsList`,
+  //   METADATA: `${BASE_URL}admin/getConfig`,
+  // },
+  // PUT: {
+  //   CONTENT: `${BASE_URL}content/updateInsightContent`
+  // },
+  POST: {
+    CreateUpdate: `http://65.1.145.79/admin/addupdateThreadCategory`,
+
+  }
+};
+
+
 export const comment ={
   POST: {
     COMMENT: `http://65.1.145.79/admin/removeThreadComment`
