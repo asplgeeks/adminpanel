@@ -20,6 +20,9 @@ import CreateUsersGroup from "./pages/CreateUsersGroup";
 import SideMenu from "./containers/SideMenu";
 import Footer from "./containers/Footer";
 
+import Categories from "./pages/category";
+
+
 function bounce(val) {
   return spring(val, {
     stiffness: 330,
@@ -203,6 +206,36 @@ function App() {
                           <Redirect to="/" />
                         ) : (
                           <Comments />
+                        );
+                      }}
+                    />
+
+                    <Route
+                      exact
+                      path="/category"
+                      render={() => {
+                        const fbUserId = JSON.parse(
+                          localStorage.getItem("imaAdmin-fbUserId")
+                        );
+                        return !fbUserId ? (
+                          <Redirect to="/" />
+                        ) : (
+                          <Categories.List />
+                        );
+                      }}
+                    />
+
+                      <Route
+                      exact
+                      path="/category/details"
+                      render={() => {
+                        const fbUserId = JSON.parse(
+                          localStorage.getItem("imaAdmin-fbUserId")
+                        );
+                        return !fbUserId ? (
+                          <Redirect to="/" />
+                        ) : (
+                          <Categories.Details />
                         );
                       }}
                     />

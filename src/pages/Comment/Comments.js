@@ -187,10 +187,17 @@ EnhancedTableHead.propTypes = {
 const EnhancedTableToolbar = (props) => {
   const { numSelected, threadList, setValue, value } = props;
   
+<<<<<<< HEAD
+  const options = threadList && threadList.map((output, index) => ({label : output.display_name, id: output.threadcategory_id}))
+
+  const [inputValue, setInputValue] = React.useState('');
+
+=======
   const options = threadList && threadList.map((output, index) => ({label : output.display_name, id: output.id}))
 
   const [inputValue, setInputValue] = React.useState('');
 
+>>>>>>> 6f0db62b77367addf1cc1398ae3ace9dd59a86bf
 console.log(inputValue)
   return (
     <Toolbar
@@ -272,7 +279,11 @@ export default function Comments(props) {
   const [getComments, setComments] = React.useState([])
   const [opened, setDialogOpen] = React.useState(false)
   const [threadList, setThread] = React.useState([])
+<<<<<<< HEAD
+  const [value, setValue] = React.useState({label : '', id : ''});
+=======
   const [value, setValue] = React.useState({label : 'Thread', id : 1});
+>>>>>>> 6f0db62b77367addf1cc1398ae3ace9dd59a86bf
 const [ ID, setId] = React.useState('')
 console.log(value)
 
@@ -355,8 +366,25 @@ React.useEffect(() => {
             placement: "bottomRight",
         });
     });
+<<<<<<< HEAD
+  }, [threadList])
+
+  React.useEffect(() => {
+    API.getThredList()
+    .then(response => response)
+    .then(result => setThread(result && result.data))
+    .catch((ex) => {
+        // setTableLoading(false);
+        notification.error({
+            message: ex,
+            placement: "bottomRight",
+        });
+    });
+  }, [])
+=======
   }, [value])
 
+>>>>>>> 6f0db62b77367addf1cc1398ae3ace9dd59a86bf
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -452,7 +480,11 @@ React.useEffect(() => {
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+<<<<<<< HEAD
+        /> */}
+=======
         />
+>>>>>>> 6f0db62b77367addf1cc1398ae3ace9dd59a86bf
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
