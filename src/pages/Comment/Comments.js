@@ -187,7 +187,7 @@ EnhancedTableHead.propTypes = {
 const EnhancedTableToolbar = (props) => {
   const { numSelected, threadList, setValue, value } = props;
   
-  const options = threadList && threadList.map((output, index) => ({label : output.display_name, value: output.threadcategory_id}))
+  const options = threadList && threadList.map((output, index) => ({label : output.display_name, id: output.id}))
 
   const [inputValue, setInputValue] = React.useState('');
 
@@ -197,10 +197,8 @@ console.log(inputValue)
       sx={{
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
-        ...(numSelected > 0 && {
           bgcolor: (theme) =>
             alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
-        }),
       }}
     >
         <Typography
@@ -225,7 +223,7 @@ console.log(inputValue)
       options={options}
       sx={{ width: 300 }}
       renderInput={(params) => {
-      return (<TextField {...params} label="Movie" />)
+      return (<TextField {...params} id="filled-basic" variant="filled" label="Filter" />)
          }
      }
     />
@@ -270,11 +268,11 @@ export default function Comments(props) {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [getComments, setComments] = React.useState([])
   const [opened, setDialogOpen] = React.useState(false)
   const [threadList, setThread] = React.useState([])
-  const [value, setValue] = React.useState({});
+  const [value, setValue] = React.useState({label : 'Thread', id : 1});
 const [ ID, setId] = React.useState('')
 console.log(value)
 
@@ -331,8 +329,23 @@ const handleDialogOpen = (detail) => {
   setId(detail.id)
   setDialogOpen(!opened)
 }
+
+
+React.useEffect(() => {
+  API.getThredList()
+  .then(response => response)
+  .then(result => setThread(result && result.data))
+  .catch((ex) => {
+      // setTableLoading(false);
+      notification.error({
+          message: ex,
+          placement: "bottomRight",
+      });
+  });
+}, [])
+
   React.useEffect(() => {
-    API.postCommetData()
+    API.postCommetData(value)
     .then(response => response)
     .then(result => setComments(result && result.data && result.data.comments))
     .catch((ex) => {
@@ -342,20 +355,8 @@ const handleDialogOpen = (detail) => {
             placement: "bottomRight",
         });
     });
-  }, [threadList])
+  }, [value])
 
-  React.useEffect(() => {
-    API.getThredList()
-    .then(response => response)
-    .then(result => setThread(result && result.data))
-    .catch((ex) => {
-        // setTableLoading(false);
-        notification.error({
-            message: ex,
-            placement: "bottomRight",
-        });
-    });
-  }, [])
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
@@ -364,24 +365,24 @@ const handleDialogOpen = (detail) => {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   return (<div>
-    <Box sx={{ width: '100%' }}>
-      <Paper sx={{ width: '100%', mb: 2 }}>
+    <Box >
+      <Paper >
       {opened === true ? <FullScreenDialog ID={ID}/> : ''}
         <EnhancedTableToolbar numSelected={selected.length} threadList={threadList} setValue={setValue} value={value}/>
         <TableContainer>
           <Table
-            sx={{ width:"100%", margin:"30px" }}
-            aria-labelledby="tableTitle"
+            sx={{ minWidth: 500}}
+            aria-label="custom pagination table"
             size={dense ? 'small' : 'medium'}
           >
-            <EnhancedTableHead
+            {/* <EnhancedTableHead
               numSelected={selected.length}
               order={order}
               orderBy={orderBy}
               onSelectAllClick={handleSelectAllClick}
               onRequestSort={handleRequestSort}
               rowCount={rows.length}
-            />
+            /> */}
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
@@ -395,8 +396,8 @@ const handleDialogOpen = (detail) => {
                     <TableRow
                       hover
                       onClick={(event) => handleClick(event, row.comment)}
-                      role="checkbox"
-                      aria-checked={isItemSelected}
+                      // role="checkbox"
+                      // aria-checked={isItemSelected}
                       tabIndex={-1}
                       key={row.name}
                       selected={isItemSelected}
@@ -407,6 +408,7 @@ const handleDialogOpen = (detail) => {
                         id={labelId}
                         scope="row"
                         padding="normal"
+                        colSpan={6}
                       >
                         {row.comment}
                       </TableCell>
@@ -420,6 +422,7 @@ const handleDialogOpen = (detail) => {
                           // inputProps={{
                           //   'aria-labelledby': labelId,
                           // }}
+                          colSpan={6}
                         />
                       </TableCell>
                       {/* <TableCell align="right">{row.comment_by}</TableCell>
@@ -441,15 +444,15 @@ const handleDialogOpen = (detail) => {
             </TableBody>
           </Table>
         </TableContainer>
-        {/* <TablePagination
-          rowsPerPageOptions={[5, 10, 25]}
+        <TablePagination
+          rowsPerPageOptions={[10, 25]}
           component="div"
           count={getComments.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-        /> */}
+        />
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
