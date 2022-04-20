@@ -46,6 +46,12 @@ export const comment ={
   }
 }
 
+export const GETTHREAD ={
+  POST: {
+    THREAD: `http://65.1.145.79/admin/addThread`
+  }
+}
+
 /* Sessions */
 export const sessions = {
   GET: {

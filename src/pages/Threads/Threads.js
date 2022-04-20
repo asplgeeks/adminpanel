@@ -1,17 +1,18 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 //style
-import { notification, message, Form, Input, Button, Divider, Tabs } from "antd";
+import { notification, message, Form, Input, Button, Divider, Tabs, Table } from "antd";
 
 
 // Actions
 import actions from "@src/store/actions";
 import CreateGroup from "./createGroup";
 import styles from "./Notifications.scss";
+// import styles from "./Content.scss";
 import NotificationsFilter from "../../components/filter/notification";
 import API from "@src/api";
 import Accordion from "../../components/accordion";
-
+import ArticleIcon from "./assets/Article.svg";
 const { TabPane } = Tabs;
 
 
@@ -19,10 +20,6 @@ const Threads = (props) => {
   const { isContent, content, handleCancel } = props;
   const { TextArea } = Input;
   const [selectedContent, setSelectedContent] = React.useState([]);
-  const [title, setTitle] = React.useState("");
-  const [desc, setDesc] = React.useState("");
-  const [payload, setPayload] = React.useState("");
-  const [searchTerm, setSearchTerm] = React.useState("");
   const [userPlaceholder, setUserPlaceholder] =
     React.useState("Loading Users...");
   const [isLoading, setIsLoading] = React.useState(false);
@@ -42,6 +39,48 @@ const Threads = (props) => {
   const [activeTab, setActiveTab] = React.useState(1);
   const [reloadUserList, setReloadUserList] = React.useState(true);
   const [preventReload, setPreventReload] = React.useState(false);
+  const [updatedDetail, setUpdatedDetail] = React.useState({})
+  const [createThread, setCreateThread] = React.useState(false)
+  const [title, setTitle] = React.useState(updatedDetail && updatedDetail.display_name);
+  const [desc, setDesc] = React.useState(updatedDetail && updatedDetail.display_desc);
+  const [payload, setPayload] = React.useState("");
+  const [searchTerm, setSearchTerm] = React.useState( "" ||  updatedDetail && updatedDetail.created_user_name);
+  // const dispatch = useDispatch();
+  const contentData = useSelector((state) => state.globalStore.contentData);
+  const currentPage = useSelector((state) => state.globalStore.contentPage);
+
+  console.log(updatedDetail)
+  const contentUpdated = useSelector(
+    (state) => state.globalStore.contentUpdated
+  );
+  const updateContentTable = (data) => {
+    const tableDataArr = [];
+    if (data && data.length > 0) {
+      data.forEach((item, index) => {
+        tableDataArr.push({
+          key: index,
+          // userId: item.fbuid,
+          content: item,
+        });
+      });
+      dispatch(actions.globalActions.setContentUpdated(false));
+      dispatch(actions.globalActions.setContentData(tableDataArr));
+    }
+    setTableLoading(false);
+  };
+
+React.useEffect(() => {
+  API.getThredList()
+  .then(response => response)
+  .then(result => updateContentTable(result && result.data))
+  .catch((ex) => {
+      // setTableLoading(false);
+      notification.error({
+          message: ex,
+          placement: "bottomRight",
+      });
+  });
+}, [])
 
   if (userData.length > 0) {
     if (userList.length === 0 && reloadUserList) {
@@ -110,9 +149,9 @@ const Threads = (props) => {
     e.stopPropagation();
     const updatedReqData = {
       ntitle: title,
-      nbody:  desc.substring(0, 50) + "...",
-      image: imageUrl,
-      payload: payload.substring(0, 100) + "...",
+      nbody:  desc,
+      // image: imageUrl,
+      // payload: payload.substring(0, 100) + "...",
       nnotificationType: isContent === "content" ? "1" : isContent === "session" ? "2": isContent === "url" ?"5":"4",
       nid: isContent === "content" ? content.contentId.toString() : isContent === "session" ? content.id.toString() :"0", //
       nsentTo: activeTab === "1" || activeTab === 1 ? "0" : activeTab === "2" || activeTab === 2 ? "1" : "2",
@@ -124,28 +163,29 @@ const Threads = (props) => {
 
     setIsLoading(true);
 
-    API.pushNotification(updatedReqData)
-      .then(({ success, response }) => {
-        if (success && response.successCount > 0) {
-          notification.success({
-            message: "Notification Sent!",
-            placement: "bottomRight",
-          });
-        } else {
-          notification.error({
-            message: "Something went wrong",
-            placement: "bottomRight",
-          });
-        }
-        setIsLoading(false);
-      })
-      .catch((ex) => {
-        setIsLoading(false);
-        notification.error({
-          message: ex,
-          placement: "bottomRight",
-        });
-      });
+    console.log("updatedReqData", updatedReqData)
+    // API.ADD_THREADS(updatedReqData)
+    //   .then(({ success, response }) => {
+    //     if (success === 1) {
+    //       notification.success({
+    //         message: "thread created successfully!",
+    //         placement: "bottomRight",
+    //       });
+    //     } else {
+    //       notification.error({
+    //         message: "Something went wrong",
+    //         placement: "bottomRight",
+    //       });
+    //     }
+    //     setIsLoading(false);
+    //   })
+    //   .catch((ex) => {
+    //     setIsLoading(false);
+    //     notification.error({
+    //       message: ex,
+    //       placement: "bottomRight",
+    //     });
+    //   });
 
     resetData(e);
   };
@@ -163,6 +203,38 @@ const Threads = (props) => {
     const updatedContent = [...new Set(currentContent)];
     setSelectedContent(updatedContent);
   };
+
+// table detail 
+  const getColumnSearchProps = (dataIndex) => ({
+
+    render: (record) => {
+      return (
+        <div className={styles.ContentInfo}>
+          <div className={styles.ContentInfoTitle}>
+            <span>{record?.display_name} </span>
+            {/* {record?.forumName && (
+              <SendNotification
+                forums={record?.forumName}
+                title={record.title}
+                id={record.contentId}
+                type="content"
+                content={record}
+                media={record.mediaDetails}
+                subTitle={record.subTitle}
+                body={record.body}
+                isContent="content"
+              />
+            )} */}
+          </div>
+          {record?.display_desc?.length > 0 && (
+            <div className={styles.ContentInfoExtraCategories}>
+              {record?.display_desc?.toString().replaceAll(",", ", ")}
+            </div>
+          )}
+        </div>
+      );
+    },
+  });
 
   const renderUsers = () => {
     const retData = [];
@@ -188,7 +260,7 @@ const Threads = (props) => {
               >
                 <input
                   type="checkbox"
-                  value={item.user ? item.user.id : item.id}
+                  value={item.user ? item.user.id : item.id || updatedDetail.id}
                   checked={isChecked}
                   onChange={(e) => {
                     e.stopPropagation();
@@ -394,7 +466,7 @@ const Threads = (props) => {
       data.forEach((item, index) => {
         tableDataArr.push({
           key: index,
-          userId: item.fbuid,
+          userId: item.id,
           user: item,
         });
         if (item.mailing_city !== "") {
@@ -487,27 +559,62 @@ const Threads = (props) => {
     setReloadUserList(val);
   }
 
-  return (
-    <div className={styles.Notifications}>
+  const onEdit = (detail) => {
+    console.log(detail)
+    setUpdatedDetail(detail)
+    setCreateThread(!createThread)
+  }
 
-      {!isContent && <br />}
-      <div className={styles.NotificationsFormCard}>
-      <div className={styles.NotificationsHeader}>
+  const columns = [
+    {
+      title: "Content",
+      dataIndex: "content",
+      key: "content",
+      align: "center",
+      ...getColumnSearchProps("content"),
+    },
+    {
+      title: "Action",
+      dataIndex: "content",
+      key: "content",
+      width: 80,
+      align: "center",
+      render: () => {
+              let typeIcon = <ArticleIcon  onClick={() => {
+                onEdit()
+              }}/>
+              return typeIcon;
+            },
+    },
+  ];
+
+  return (
+    // <div className={styles.Notifications}>
+      <div className={styles.Content}>
+      <div className={styles.ContentHeader}>
         <div>
-          {!isContent && <> <h2 className={styles.NotificationsHeaderTitle}>Threads</h2>
-            <div className={styles.NotificationsSubHeader}>
-              Send customized Threads
-            </div></>}
-          {isContent && <div className={styles.NotificationsSubHeader} style={{ paddingLeft: "10px", paddingTop: "10px", pointerEvent: "none" }}>
-            Send customized Threads
-          </div>}
+          <h2 className={styles.ContentHeaderTitle}>Threads</h2>
+          <div className={styles.ContentSubHeader}>Update Insight Threads</div>
         </div>
+        <Button
+          type="primary"
+          onClick={() => {
+            // dispatch(actions.globalActions.setContentDetailsData({}));
+            // history.push("/content/details");
+            setCreateThread(!createThread)
+          }}
+        >
+          Create
+        </Button>
       </div>
+
+      {createThread  === true ?
+      <div className={styles.NotificationsFormCard}>
         <div >
           <div className={styles.NotificationsInputLabel}>Title</div>
           <Input
             placeholder="Notification Title"
-            value={title}
+            value={title || updatedDetail && updatedDetail.display_name}
             onChange={(e) => {
               e.stopPropagation();
               const name = e.target.value;
@@ -519,7 +626,7 @@ const Threads = (props) => {
           <div className={styles.NotificationsInputLabel}>Description</div>
           <TextArea
             placeholder="Notification Body"
-            value={desc}
+            value={desc || updatedDetail.display_desc}
             onChange={(e) => {
               e.stopPropagation();
               const name = e.target.value;
@@ -528,6 +635,7 @@ const Threads = (props) => {
             disabled={isContent}
             style={isContent ?{ pointerEvent: "none" }:{}}
           />
+
         </div>
 
         <div>
@@ -541,13 +649,14 @@ const Threads = (props) => {
 
                 <div>
                   <Input
+                    value={searchTerm  ||  updatedDetail.created_user_name}
                     placeholder="Search Users"
                     onChange={(e) => {
                       e.stopPropagation();
                       const val = e.target.value;
                       setSearchTerm(val);
                     }}
-                    value={searchTerm}
+                    
                     style={{ width: "300px" }}
                   />
                 </div>
@@ -561,7 +670,7 @@ const Threads = (props) => {
                 type="primary"
                 onClick={(e) => handleNotiClick(e)}
                 loading={isLoading}
-                disabled={!title || !desc || selectedContent.length === 0}
+                // disabled={!title || !desc || selectedContent.length === 0}
               >
                 Send Notification
               </Button>
@@ -625,9 +734,37 @@ const Threads = (props) => {
 
 
         {/* ---------- */}
-      </div>
+      </div> : ""}
       
+      {createThread  === false ? <Table 
+       size="middle"
+       className="contentTable"
+       rowClassName="contentTableRow"
+       dataSource={contentData}
+      columns={columns}
+      pagination={{
+        pageSize: 100,
+        position: ["bottomRight"],
+        current: currentPage,
+        onChange: (page) => {
+          dispatch(actions.globalActions.setContentPage(page));
+        },
+      }}
+      fixed={"right"}
+      onRow={(record, rowIndex) => {
+        return {
+          onClick: (event) => {
+            // dispatch(
+            //   actions.globalActions.setContentDetailsData(record.content)
+            // );
+            // history.push("/content/details");
+            onEdit(record.content)
+          },
+        };
+      }}
+      /> : ''}
     </div>
+    // </div>
   );
 };
 

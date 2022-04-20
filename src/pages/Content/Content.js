@@ -33,6 +33,8 @@ const Content = () => {
   const dispatch = useDispatch();
   const contentData = useSelector((state) => state.globalStore.contentData);
   const currentPage = useSelector((state) => state.globalStore.contentPage);
+  
+  console.log(contentData)
   const contentUpdated = useSelector(
     (state) => state.globalStore.contentUpdated
   );
