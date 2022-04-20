@@ -19,6 +19,13 @@ export const users = {
   },
 };
 
+// Threds
+
+export const thread = {
+  POST: {
+    THREAD: `http://65.1.145.79/admin/listThreads`
+  }
+}
 /* Content */
 export const content = {
   GET: {

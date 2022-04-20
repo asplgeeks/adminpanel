@@ -489,6 +489,9 @@ const Threads = (props) => {
 
   return (
     <div className={styles.Notifications}>
+
+      {!isContent && <br />}
+      <div className={styles.NotificationsFormCard}>
       <div className={styles.NotificationsHeader}>
         <div>
           {!isContent && <> <h2 className={styles.NotificationsHeaderTitle}>Threads</h2>
@@ -500,8 +503,6 @@ const Threads = (props) => {
           </div>}
         </div>
       </div>
-      {!isContent && <br />}
-      <div className={styles.NotificationsFormCard}>
         <div >
           <div className={styles.NotificationsInputLabel}>Title</div>
           <Input
@@ -515,20 +516,6 @@ const Threads = (props) => {
             disabled={isContent}
             style={isContent ?{ pointerEvent: "none" }:{}}
           />
-          <br /> <br />
-          <div className={styles.NotificationsInputLabel}>Image Url</div>
-          <Input
-            placeholder="Image Url"
-            value={imageUrl}
-            onChange={(e) => {
-              e.stopPropagation();
-              const name = e.target.value;
-              setImageUrl(name);
-            }}
-            disabled={isContent}
-            style={isContent ?{ pointerEvent: "none" }:{}}
-          />
-          <br /> <br />
           <div className={styles.NotificationsInputLabel}>Description</div>
           <TextArea
             placeholder="Notification Body"
@@ -541,21 +528,6 @@ const Threads = (props) => {
             disabled={isContent}
             style={isContent ?{ pointerEvent: "none" }:{}}
           />
-          <br /> <br />
-          <div className={styles.NotificationsInputLabel}>Payload</div>
-          <TextArea
-            placeholder="Payload..."
-            value={payload}
-            onChange={(e) => {
-              e.stopPropagation();
-              const name = e.target.value;
-              setPayload(name);
-            }}
-            style={{ height: "15vh" }}
-            disabled={isContent}
-            style={isContent ?{ pointerEvent: "none" }:{}}
-          />
-          <br /> <br />
         </div>
 
         <div>
