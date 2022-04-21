@@ -41,7 +41,7 @@ const Threads = (props) => {
   const [preventReload, setPreventReload] = React.useState(false);
   const [updatedDetail, setUpdatedDetail] = React.useState({})
   const [createThread, setCreateThread] = React.useState(false)
-  const [title, setTitle] = React.useState(updatedDetail && updatedDetail.display_name);
+  const [title, setTitle] = React.useState();
   const [desc, setDesc] = React.useState(updatedDetail && updatedDetail.display_desc);
   const [payload, setPayload] = React.useState("");
   const [searchTerm, setSearchTerm] = React.useState( "" ||  updatedDetail && updatedDetail.created_user_name);
@@ -49,7 +49,7 @@ const Threads = (props) => {
   const contentData = useSelector((state) => state.globalStore.contentData);
   const currentPage = useSelector((state) => state.globalStore.contentPage);
 
-  console.log(updatedDetail)
+  console.log(updatedDetail && updatedDetail.display_desc)
   const contentUpdated = useSelector(
     (state) => state.globalStore.contentUpdated
   );
@@ -80,7 +80,7 @@ React.useEffect(() => {
           placement: "bottomRight",
       });
   });
-}, [])
+}, [createThread])
 
   if (userData.length > 0) {
     if (userList.length === 0 && reloadUserList) {
@@ -141,15 +141,15 @@ React.useEffect(() => {
     setSelectedGroup([]);
     setSelectedForum([]);
     setImageUrl("");
-    handleCancel(e);
+    // handleCancel(e);
     setPreventReload(false);
   };
 
   const handleNotiClick = (e) => {
     e.stopPropagation();
     const updatedReqData = {
-      ntitle: title,
-      nbody:  desc,
+      ntitle: title ? title : updatedDetail && updatedDetail.display_name,
+      nbody:  desc ? desc : updatedDetail && updatedDetail.display_desc,
       // image: imageUrl,
       // payload: payload.substring(0, 100) + "...",
       nnotificationType: isContent === "content" ? "1" : isContent === "session" ? "2": isContent === "url" ?"5":"4",
@@ -164,31 +164,79 @@ React.useEffect(() => {
     setIsLoading(true);
 
     console.log("updatedReqData", updatedReqData)
-    // API.ADD_THREADS(updatedReqData)
-    //   .then(({ success, response }) => {
-    //     if (success === 1) {
-    //       notification.success({
-    //         message: "thread created successfully!",
-    //         placement: "bottomRight",
-    //       });
-    //     } else {
-    //       notification.error({
-    //         message: "Something went wrong",
-    //         placement: "bottomRight",
-    //       });
-    //     }
-    //     setIsLoading(false);
-    //   })
-    //   .catch((ex) => {
-    //     setIsLoading(false);
-    //     notification.error({
-    //       message: ex,
-    //       placement: "bottomRight",
-    //     });
-    //   });
+    API.ADD_THREADS(updatedReqData)
+      .then(({ success, response }) => {
+        if (success === 1) {
+          notification.success({
+            message: "thread created successfully!",
+            placement: "bottomRight",
+          });
+        } else {
+          notification.error({
+            message: "Something went wrong",
+            placement: "bottomRight",
+          });
+        }
+        setIsLoading(false);
+      })
+      .catch((ex) => {
+        setIsLoading(false);
+        notification.error({
+          message: ex,
+          placement: "bottomRight",
+        });
+      });
 
     resetData(e);
   };
+
+  const handleUpdateClick = (e) => {
+    e.stopPropagation();
+    const updatedReqData = {
+      ntitle: title ? title : updatedDetail && updatedDetail.display_name,
+      nbody:  desc ? desc : updatedDetail && updatedDetail.display_desc.substring(0, 100) + "...",
+      // image: imageUrl,
+      // payload: payload.substring(0, 100) + "...",
+      threadcategory_id: updatedDetail && updatedDetail.threadcategory_id,
+      nnotificationType: updatedDetail && updatedDetail.send_notification,
+      nid: updatedDetail && updatedDetail.id, //
+      nsentTo: activeTab === "1" || activeTab === 1 ? "0" : activeTab === "2" || activeTab === 2 ? "1" : "2",
+      nids: activeTab === "1" || activeTab === 1 ? JSON.stringify(selectedContent).slice(1, -1)
+        : activeTab === "2" || activeTab === 2 ? JSON.stringify(selectedGroup).slice(1, -1)
+          : JSON.stringify(selectedForum).slice(1, -1).replace(/["']/g, "")
+
+    };
+
+    setIsLoading(true);
+
+    console.log("updatedReqData", updatedReqData)
+    API.UPDATE_THREADS(updatedReqData)
+      .then(({ success, response }) => {
+        if (success === 1) {
+          notification.success({
+            message: "thread created successfully!",
+            placement: "bottomRight",
+          });
+           setCreateThread(!createThread)
+        } else {
+          notification.error({
+            message: "Something went wrong",
+            placement: "bottomRight",
+          });
+        }
+        setIsLoading(false);
+      })
+      .catch((ex) => {
+        setIsLoading(false);
+        notification.error({
+          message: ex,
+          placement: "bottomRight",
+        });
+      });
+
+    resetData(e);
+  };
+
 
   const handleOnCheck = (item) => {
     let currentContent = [...selectedContent];
@@ -666,14 +714,23 @@ React.useEffect(() => {
               <div className={styles.NotificationsUsersList}>{renderUsers()}</div>
 
               <br />
-              <Button
+             {updatedDetail && updatedDetail.display_name ? <Button
                 type="primary"
-                onClick={(e) => handleNotiClick(e)}
+                onClick={(e) => handleUpdateClick(e)}
                 loading={isLoading}
                 // disabled={!title || !desc || selectedContent.length === 0}
               >
                 Send Notification
               </Button>
+              :
+              <Button
+                type="primary"
+                onClick={(e) => handleNotiClick(e)}
+                loading={isLoading}
+                disabled={!title || !desc || selectedContent.length === 0}
+              >
+                Send Notification
+              </Button> }
             </TabPane>
               <TabPane tab="GROUP" key="2">
                 <div className={styles.NotificationsInputLabel}>User Groups</div>

@@ -65,6 +65,9 @@ export const comment ={
 export const GETTHREAD ={
   POST: {
     THREAD: `http://65.1.145.79/admin/addThread`
+  },
+  POST: {
+    UPDATETHREAD: `http://65.1.145.79/admin/updateThread`
   }
 }
 
