@@ -9,6 +9,7 @@ import {
   Input,
   Space,
   Alert,
+  Switch,
   Divider,
 } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
@@ -39,37 +40,14 @@ const Content = () => {
   const history = useHistory();
 
   const [tableLoading, setTableLoading] = React.useState(true);
+  const [reload_table, setReload] = React.useState(true);
 
+  
   const [searchText, setSearchText] = React.useState();
   const [searchedColumn, setSearchedColumn] = React.useState();
   const fbUserId = JSON.parse(localStorage.getItem("imaAdmin-fbUserId"));
 
-  const contentExtraTags = (forum) => {
-    const retData = [];
-
-    const renderColor = (item) => {
-      let retColor;
-      if (item === "CEO") {
-        retColor = "green";
-      }
-      if (item === "CFO") {
-        retColor = "geekblue";
-      }
-      if (item === "CHRO") {
-        retColor = "magenta";
-      }
-      if (item === "CMO") {
-        retColor = "orange";
-      }
-
-      return retColor;
-    };
-
-    forum.forEach((item) => {
-      retData.push(<Tag color={renderColor(item)}>{item}</Tag>);
-    });
-    return retData;
-  };
+ 
 
   // #region Search
 
@@ -82,7 +60,7 @@ const Content = () => {
     }) => (
       <div style={{ padding: 8 }}>
         <Alert
-          message="Search by Title, Category Name or Forum"
+          message="Search by  Category Name"
           type="info"
           showIcon
         />
@@ -127,9 +105,9 @@ const Content = () => {
       let recordFound;
 
       const params = [
-        record[dataIndex].title.toString().toLowerCase(),
-        record[dataIndex].categoryName.toString().toLowerCase(),
-        record[dataIndex].forumName.toString().toLowerCase(),
+        record.cat_name.toString().toLowerCase(),
+        // record[dataIndex].cat_description.toString().toLowerCase(),
+        // record[dataIndex].forumName.toString().toLowerCase(),
       ];
 
       params.forEach((item) => {
@@ -147,56 +125,39 @@ const Content = () => {
       }
     },
 
-    render: (record) => {
-      return (
-        <div className={styles.ContentInfo}>
-          <div className={styles.ContentInfoTitle}>
-            <span>{record?.title} </span>
-            {record?.forumName && (
-              <SendNotification
-                forums={record?.forumName}
-                title={record.title}
-                id={record.contentId}
-                type="content"
-                content={record}
-                media={record.mediaDetails}
-                subTitle={record.subTitle}
-                body={record.body}
-                isContent="content"
-              />
-            )}
-          </div>
-
-          {record?.categoryName?.length > 0 && (
-            <div className={styles.ContentInfoExtraCategories}>
-              {record?.categoryName?.toString().replaceAll(",", ", ")}
-            </div>
-          )}
-
-          {record?.primaryTagName?.length > 0 && (
-            <div className={styles.ContentInfoExtraContent}>
-              {record?.primaryTagName?.toString().replaceAll(",", ", ")}
-            </div>
-          )}
-
-          {record?.forumName?.length > 0 && (
-            <div className={styles.ContentInfoExtraTags}>
-              {contentExtraTags(record.forumName)}
-            </div>
-          )}
-          <Divider />
-          <div className={styles.ContentInfoStatus}>
-            Publish Status:{" "}
-            <div
-              className={`${styles.ContentInfoStatusPill} ${
-                record.isVisible.data[0] &&
-                styles.ContentInfoStatusPillPublished
-              }`}
-            />
-          </div>
-        </div>
-      );
-    },
+    // render: (record) => {
+    //   console.log("record", record)
+    //   return (
+    //     <div className={styles.ContentInfo}>
+    //       <div className={styles.ContentInfoTitle}>
+    //         <span>{record?.cat_name} </span>
+           
+    //           <div
+    //             // forums={record?.forumName}
+    //             // title={record.title}
+    //             // id={record.contentId}
+    //             type="content"
+    //             // content={record}
+    //             // media={record.mediaDetails}
+    //             // subTitle={record.subTitle}
+    //             // body={record.body}
+    //             isContent="content"
+    //           />
+    //       </div>
+    //       <span>{record?.cat_description} </span>
+        
+    //       <Divider />
+    //       <div className={styles.ContentInfoStatus}>
+    //         Status:{" "}
+    //         <div
+    //           className={`${styles.ContentInfoStatusPill}
+    //            ${record && styles.ContentInfoStatusPillPublished
+    //           }`}
+    //         />
+    //       </div>
+    //     </div>
+    //   );
+    // },
   });
 
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
@@ -209,62 +170,90 @@ const Content = () => {
     clearFilters();
     setSearchText("");
   };
+  const updateData= (record) => {
+    // console.log("update data", record)
+    dispatch(
+      actions.globalActions.setContentDetailsData(record)
+    );
+    history.push("/category/details");
+  }
 
+  const ChangeStatus =(record)=>{
+ let active=record.is_active === 1 ? 0 : 1
+let data={cat_id:record.id,is_active:active}
+    API.UpdateCategoryStatus(data)
+    .then((response) => {
+      if (response.success === 1) {
+        notification.success({
+          message:response.message,
+          placement: "bottomRight",
+        });
+        setReload(!reload_table)
+      } else {
+        notification.error({
+          message: "Something went wrong",
+          placement: "bottomRight",
+        });
+      }
+      setTableLoading(false);
+    })
+    .catch((ex) => {
+      setTableLoading(false);
+      notification.error({
+        message: ex,
+        placement: "bottomRight",
+      });
+    });
+  }
   //#endregion
 
   const columns = [
     {
-      title: "Type",
-      dataIndex: "content",
-      key: "content",
-      width: 80,
-      align: "center",
-      filters: [
-        {
-          text: "Video",
-          value: "video",
-        },
-        {
-          text: "Podcast",
-          value: "podcast",
-        },
-        {
-          text: "Article",
-          value: "article",
-        },
-      ],
-      onFilter: (value, record) => {
-        return record.content.type.toLowerCase() === value;
-      },
-      render: (record) => {
-        let typeIcon = <ArticleIcon />;
-        if (record.type.toLowerCase() === "video") {
-          typeIcon = <VideoIcon />;
-        }
-
-        if (record.type.toLowerCase() === "podcast") {
-          typeIcon = <PodcastIcon />;
-        }
-        return typeIcon;
-      },
+      title: "Name",
+      dataIndex: "cat_name",
+       align: "left",
+      width: "30%",
+      key: "cat_name",
+      ...getColumnSearchProps("cat_name"),
     },
     {
-      title: "Content",
-      dataIndex: "content",
-      key: "content",
-      ...getColumnSearchProps("content"),
+      title: "Description",
+      dataIndex: "cat_description",
+      key: "cat_description",
+      width: "30%",
+      // ...getColumnSearchProps(record),
     },
+    {
+      title: "Status",
+      align: "center",
+      width: "20%",
+      render: (record) => {
+        return(  record.is_active === 1 ?  <Switch defaultChecked  onClick={() => ChangeStatus(record)} /> : <Switch  onClick={() => ChangeStatus(record)}/> )
+
+        //     // <ArticleIcon  style={{align:"center"}}  onClick={() => updateData(record)} />
+        // ) 
+    }
+   },
+    {
+      title: "Action",
+      align: "center",
+      width: "20%",
+      render: (record) => {
+        return (
+            <ArticleIcon  style={{align:"center"}}  onClick={() => updateData(record)} />
+        ) 
+    }
+
+    }
   ];
 
   const updateContentTable = (data) => {
     const tableDataArr = [];
     if (data && data.length > 0) {
-      data.forEach((item, index) => {
-        tableDataArr.push({
-          key: index,
-          userId: item.fbuid,
-          content: item,
-        });
+      data.forEach((item, index) => 
+    {
+      console.log("attr", item)
+        tableDataArr.push(item);
       });
       dispatch(actions.globalActions.setContentUpdated(false));
       dispatch(actions.globalActions.setContentData(tableDataArr));
@@ -275,16 +264,17 @@ const Content = () => {
   React.useEffect(() => {
     document.getElementsByTagName("main")[0].scrollTo(0, 0);
 
-    if (contentUpdated || contentData.length === 0) {
-      API.getContentMetadata().then(({ success, response }) => {
-        if (success) {
-          dispatch(actions.globalActions.setContentMetadata(response.data));
-        }
-      });
+    // if (contentUpdated || contentData.length === 0) {
+    //   API.getContentMetadata().then(({ success, response }) => {
+    //     if (success) {
+    //       dispatch(actions.globalActions.setContentMetadata(response.data));
+    //     }
+    //   });
 
-      API.getContentList(fbUserId)
-        .then(({ success, response }) => {
-          if (success) {
+      API.getCategoryList()
+        .then((response) => {
+          // console.log("success", success)
+          if (response.success === 1) {
             updateContentTable(response.data);
           } else {
             notification.error({
@@ -301,17 +291,17 @@ const Content = () => {
             placement: "bottomRight",
           });
         });
-    } else {
-      setTableLoading(false);
-    }
-  }, []);
+    // } else {
+    //   setTableLoading(false);
+    // }
+  }, [reload_table]);
 
   return (
     <div className={styles.Content}>
       <div className={styles.ContentHeader}>
         <div>
           <h2 className={styles.ContentHeaderTitle}>Categories</h2>
-          <div className={styles.ContentSubHeader}>Update Categories</div>
+          <div className={styles.ContentSubHeader}>List Categories</div>
         </div>
         <Button
           type="primary"
@@ -323,7 +313,7 @@ const Content = () => {
           Create
         </Button>
       </div>
-
+ {console.log("current data", contentData)}
       <Table
         pagination={{
           pageSize: 100,
@@ -340,16 +330,16 @@ const Content = () => {
         fixed={"right"}
         dataSource={contentData}
         loading={tableLoading}
-        onRow={(record, rowIndex) => {
-          return {
-            onClick: (event) => {
-              dispatch(
-                actions.globalActions.setContentDetailsData(record.content)
-              );
-              history.push("/category/details");
-            },
-          };
-        }}
+        // onRow={(record, rowIndex) => {
+        //   return {
+        //     onClick: (event) => {
+        //       dispatch(
+        //         actions.globalActions.setContentDetailsData(record)
+        //       );
+        //       history.push("/category/details");
+        //     },
+        //   };
+        // }}
       />
     </div>
   );
