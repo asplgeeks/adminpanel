@@ -64,10 +64,14 @@ export const comment ={
   }
 }
 
-export const GETTHREAD ={
+export const THREADLIST = {
   POST: {
     THREAD: `http://65.1.145.79/admin/addThread`
   },
+}
+
+export const GETTHREAD ={
+
   POST: {
     UPDATETHREAD: `http://65.1.145.79/admin/updateThread`
   }

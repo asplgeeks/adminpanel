@@ -359,20 +359,8 @@ React.useEffect(() => {
             placement: "bottomRight",
         });
     });
-  }, [threadList])
+  }, [value])
 
-  React.useEffect(() => {
-    API.getThredList()
-    .then(response => response)
-    .then(result => setThread(result && result.data))
-    .catch((ex) => {
-        // setTableLoading(false);
-        notification.error({
-            message: ex,
-            placement: "bottomRight",
-        });
-    });
-  }, [])
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 

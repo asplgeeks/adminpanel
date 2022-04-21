@@ -42,7 +42,7 @@ const Threads = (props) => {
   const [updatedDetail, setUpdatedDetail] = React.useState({})
   const [createThread, setCreateThread] = React.useState(false)
   const [title, setTitle] = React.useState();
-  const [desc, setDesc] = React.useState(updatedDetail && updatedDetail.display_desc);
+  const [desc, setDesc] = React.useState();
   const [payload, setPayload] = React.useState("");
   const [searchTerm, setSearchTerm] = React.useState( "" ||  updatedDetail && updatedDetail.created_user_name);
   // const dispatch = useDispatch();
@@ -171,6 +171,7 @@ React.useEffect(() => {
             message: "thread created successfully!",
             placement: "bottomRight",
           });
+          setCreateThread(!createThread)
         } else {
           notification.error({
             message: "Something went wrong",
@@ -618,7 +619,7 @@ React.useEffect(() => {
       title: "Content",
       dataIndex: "content",
       key: "content",
-      align: "center",
+      // align: "center",
       ...getColumnSearchProps("content"),
     },
     {

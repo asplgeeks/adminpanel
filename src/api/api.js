@@ -273,6 +273,31 @@ var requestOptions = {
   return response;
 }
 
+export const  ADD_THREADS = async(data, id) => {
+  // let base64 = require('base-64')
+  console.log(id)
+  const url = ENDPOINTS.THREADLIST.POST.THREAD;
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Basic YXN1V29ya3M6ZXJnYmhqd2Z2Ymhqa2VndmZ2a2diaGpiaGprc2ZkZ3ZzZGpmdmhua2xobmprbGhqa1NKS0hoamtCSEpLYmhqa2hqa2tqQkhKdkhKS0JISks=");
+  myHeaders.append("Content-Type", "application/json");
+  
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: JSON.stringify({
+    userid:data.nids,
+    threadcategory_id:"1",
+    admin_note:"note",
+    display_name:data.ntitle,
+    display_desc:data.nbody,
+    moderator_ids:"40"
+}),
+  redirect: 'follow'
+};
+  const req = await fetch(url, requestOptions);
+  const response = await req.json();
+  return response;
+}
 
 export const  UPDATE_THREADS = async(data, id) => {
   // let base64 = require('base-64')
