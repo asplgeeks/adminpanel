@@ -1,4 +1,4 @@
-import ContentList from "./Content";
+import ContentList from "./Category";
 import ContentDetails from "./Details/CategoryDetails";
 
 const Content = {

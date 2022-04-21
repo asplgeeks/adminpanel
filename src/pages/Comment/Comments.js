@@ -276,7 +276,7 @@ export default function Comments(props) {
   const [getComments, setComments] = React.useState([])
   const [opened, setDialogOpen] = React.useState(false)
   const [threadList, setThread] = React.useState([])
-  const [value, setValue] = React.useState({label : '', id : ''});
+  const [value, setValue] = React.useState({label : 'Thread', id : 1});
 const [ ID, setId] = React.useState('')
 console.log(value)
 
@@ -477,4 +477,5 @@ React.useEffect(() => {
     </Box>
     </div>);
 }
+
 

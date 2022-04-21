@@ -43,14 +43,16 @@ export const content = {
 /* Content */
 export const category = {
   // GET: {
-  //   CONTENT_LIST: `${BASE_URL}admin/contentsList`,
-  //   METADATA: `${BASE_URL}admin/getConfig`,
+  //   CategoryList: `${BASE_URL}admin/contentsList`
   // },
   // PUT: {
   //   CONTENT: `${BASE_URL}content/updateInsightContent`
   // },
   POST: {
     CreateUpdate: `http://65.1.145.79/admin/addupdateThreadCategory`,
+    CategoryList: `http://65.1.145.79/admin/listThreadCategories`,
+    UpdateStatus: `http://65.1.145.79/admin/activeDeactiveCategory`
+   
 
   }
 };
