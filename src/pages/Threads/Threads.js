@@ -796,12 +796,12 @@ React.useEffect(() => {
       
       {createThread  === false ? <Table 
        size="middle"
-       className="contentTable"
+      //  className="contentTable"
        rowClassName="contentTableRow"
        dataSource={contentData}
       columns={columns}
       pagination={{
-        pageSize: 100,
+        pageSize: 5,
         position: ["bottomRight"],
         current: currentPage,
         onChange: (page) => {

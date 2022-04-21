@@ -196,7 +196,7 @@ var requestOptions = {
   return response;
 }
 
-export const  postCommetData = async(data) => {
+export const  postCommetData = async(data, row, page) => {
   // let base64 = require('base-64')
   console.log(data)
   const url = ENDPOINTS.content.POST.COMMENT;
@@ -210,9 +210,9 @@ var requestOptions = {
   body: JSON.stringify({
     comment_id:"",
     thread_id:data.id,
-    page_no:1,
-    page_limit:10,
-    sort_by:13,
+    page_no:page,
+    page_limit:row,
+    sort_by:"",
     search_by:"",
     filter_by:{
         file_type:"",
