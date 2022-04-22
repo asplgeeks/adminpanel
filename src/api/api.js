@@ -299,6 +299,11 @@ var requestOptions = {
   return response;
 }
 
+export const addupdatethreaduserdetail = (data) => {
+  const url = ENDPOINTS.SELECT_THREAD_USER_CATEGORY.POST.THREADUSERLIST;
+  return ApiRequest(url, "POST", data);
+};
+
 export const  UPDATE_THREADS = async(data, id) => {
   // let base64 = require('base-64')
   console.log(id)

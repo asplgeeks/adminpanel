@@ -70,8 +70,12 @@ export const THREADLIST = {
   },
 }
 
+export const SELECT_THREAD_USER_CATEGORY = {
+  POST: {
+    THREADUSERLIST: `http://65.1.145.79/admin/addUpdateThreadSelectors`
+  },
+}
 export const GETTHREAD ={
-
   POST: {
     UPDATETHREAD: `http://65.1.145.79/admin/updateThread`
   }

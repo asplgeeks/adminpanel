@@ -459,10 +459,10 @@ React.useEffect(() => {
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
         /> */}
-          <Stack spacing={2}>
-      <Pagination count={getComments.length} page={page} onChange={handleChangePage} shape="rounded" />
+          {/* <Stack spacing={2}> */}
+      <Pagination count={getComments.length} page={page} onChange={handleChangePage} shape="rounded" style={{float:"right"}}/>
       {/* <Pagination count={10} variant="outlined" shape="rounded" /> */}
-    </Stack>
+    {/* </Stack> */}
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}

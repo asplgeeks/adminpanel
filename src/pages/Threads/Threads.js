@@ -161,8 +161,16 @@ React.useEffect(() => {
 
     };
 
-    setIsLoading(true);
+    const selectionData = {
+      threadid: "",
+      selection_type: activeTab === "1" || activeTab === 1 ? "0" : activeTab === "2" || activeTab === 2 ? "1" : "2",
+      selected_ids: activeTab === "1" || activeTab === 1 ? JSON.stringify(selectedContent).slice(1, -1)
+      : activeTab === "2" || activeTab === 2 ? JSON.stringify(selectedGroup).slice(1, -1)
+        : JSON.stringify(selectedForum).slice(1, -1).replace(/["']/g, "") 
+  }
 
+    setIsLoading(true);
+    API.addupdatethreaduserdetail(selectionData)
     console.log("updatedReqData", updatedReqData)
     API.ADD_THREADS(updatedReqData)
       .then(({ success, response }) => {
@@ -208,9 +216,17 @@ React.useEffect(() => {
 
     };
 
-    setIsLoading(true);
+    const updatedData = {
+      threadid: updatedDetail && updatedDetail.id,
+      selection_type: activeTab === "1" || activeTab === 1 ? "0" : activeTab === "2" || activeTab === 2 ? "1" : "2",
+      selected_ids: activeTab === "1" || activeTab === 1 ? JSON.stringify(selectedContent).slice(1, -1)
+      : activeTab === "2" || activeTab === 2 ? JSON.stringify(selectedGroup).slice(1, -1)
+        : JSON.stringify(selectedForum).slice(1, -1).replace(/["']/g, "") 
+  }
 
-    console.log("updatedReqData", updatedReqData)
+    setIsLoading(true);
+    API.addupdatethreaduserdetail(updatedData)
+
     API.UPDATE_THREADS(updatedReqData)
       .then(({ success, response }) => {
         if (success === 1) {
@@ -749,14 +765,23 @@ React.useEffect(() => {
                 </div>
                 <div className={styles.NotificationsUsersList}>{renderUsersGroup()}</div>
                 <br />
-                <Button
-                  type="primary"
-                  onClick={(e) => handleNotiClick(e)}
-                  loading={isLoading}
-                  disabled={!title || !desc || selectedGroup.length === 0}
-                >
-                  Send Notification
-                </Button>
+                {updatedDetail && updatedDetail.display_name ? <Button
+                type="primary"
+                onClick={(e) => handleUpdateClick(e)}
+                loading={isLoading}
+                // disabled={!title || !desc || selectedContent.length === 0}
+              >
+                Send Notification
+              </Button>
+              :
+              <Button
+                type="primary"
+                onClick={(e) => handleNotiClick(e)}
+                loading={isLoading}
+                disabled={!title || !desc || selectedGroup.length === 0}
+              >
+                Send Notification
+              </Button> }
               </TabPane> </>
               {/* } */}
             <TabPane tab="FORUM" key="3">
@@ -775,14 +800,23 @@ React.useEffect(() => {
               </div>
               <div className={styles.NotificationsUsersList}>{renderForums()}</div>
               <br />
+              {updatedDetail && updatedDetail.display_name ? <Button
+                type="primary"
+                onClick={(e) => handleUpdateClick(e)}
+                loading={isLoading}
+                // disabled={!title || !desc || selectedContent.length === 0}
+              >
+                Send Notification
+              </Button>
+              :
               <Button
                 type="primary"
                 onClick={(e) => handleNotiClick(e)}
                 loading={isLoading}
                 disabled={!title || !desc || selectedForum.length === 0}
               >
-                Send Thread
-              </Button>
+                Send Notification
+              </Button> }
             </TabPane>
 
           </Tabs>
