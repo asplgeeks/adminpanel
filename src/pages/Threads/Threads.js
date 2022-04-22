@@ -49,7 +49,7 @@ const Threads = (props) => {
   const contentData = useSelector((state) => state.globalStore.contentData);
   const currentPage = useSelector((state) => state.globalStore.contentPage);
 
-  console.log(updatedDetail && updatedDetail.display_desc)
+  // console.log(updatedDetail && updatedDetail.display_desc)
   const contentUpdated = useSelector(
     (state) => state.globalStore.contentUpdated
   );
@@ -309,7 +309,7 @@ React.useEffect(() => {
       userList.forEach((item, i) => {
         const name = item.user ? `${item.user.first_name} ${item.user.last_name}` : item.name && item.name;
         let _id = item.user ? item.user.id : item.id;
-        const isChecked = selectedContent.includes(_id);
+        const isChecked = (selectedContent.includes(_id)) || (updatedDetail && updatedDetail.userid === _id);
 
         if (searchTerm) {
           if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
@@ -325,7 +325,7 @@ React.useEffect(() => {
               >
                 <input
                   type="checkbox"
-                  value={item.user ? item.user.id : item.id || updatedDetail.id}
+                  value={item.user ? item.user.id : item.id || updatedDetail && updatedDetail.userid}
                   checked={isChecked}
                   onChange={(e) => {
                     e.stopPropagation();
@@ -714,7 +714,7 @@ React.useEffect(() => {
 
                 <div>
                   <Input
-                    value={searchTerm  ||  updatedDetail.created_user_name}
+                    value={searchTerm}
                     placeholder="Search Users"
                     onChange={(e) => {
                       e.stopPropagation();
