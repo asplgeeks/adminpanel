@@ -306,3 +306,39 @@ var requestOptions = {
   const response = await req.json();
   return response;
 };
+
+export const ThreadRequestList = async(data) => {
+  // const url = ENDPOINTS.sessions.GET.SESSION_CONTENT_LIST;
+  const url = ENDPOINTS.ThreadRequest.POST.List;
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Basic YXN1V29ya3M6ZXJnYmhqd2Z2Ymhqa2VndmZ2a2diaGpiaGprc2ZkZ3ZzZGpmdmhua2xobmprbGhqa1NKS0hoamtCSEpLYmhqa2hqa2tqQkhKdkhKS0JISks=");
+  myHeaders.append("Content-Type", "application/json");
+  
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: JSON.stringify(data),
+};
+  const req = await fetch(url, requestOptions);
+  const response = await req.json();
+  return response;
+};
+
+
+export const UpdateThreadRequest = async(data) => {
+  // const url = ENDPOINTS.sessions.GET.SESSION_CONTENT_LIST;
+  const url = ENDPOINTS.ThreadRequest.POST.UpdateStatus;
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Basic YXN1V29ya3M6ZXJnYmhqd2Z2Ymhqa2VndmZ2a2diaGpiaGprc2ZkZ3ZzZGpmdmhua2xobmprbGhqa1NKS0hoamtCSEpLYmhqa2hqa2tqQkhKdkhKS0JISks=");
+  myHeaders.append("Content-Type", "application/json");
+  
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: JSON.stringify(data),
+};
+  const req = await fetch(url, requestOptions);
+  const response = await req.json();
+  return response;
+};
+

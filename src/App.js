@@ -22,6 +22,8 @@ import Footer from "./containers/Footer";
 
 import Categories from "./pages/category";
 
+import ThreadsRequest from "./pages/ThreadRequest";
+
 
 function bounce(val) {
   return spring(val, {
@@ -239,6 +241,21 @@ function App() {
                         );
                       }}
                     />
+                    <Route
+                      exact
+                      path="/thread-request"
+                      render={() => {
+                        const fbUserId = JSON.parse(
+                          localStorage.getItem("imaAdmin-fbUserId")
+                        );
+                        return !fbUserId ? (
+                          <Redirect to="/" />
+                        ) : (
+                          <ThreadsRequest />
+                        );
+                      }}
+                    />
+                    
                   </div>
                 );
               }}

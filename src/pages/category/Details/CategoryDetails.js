@@ -181,24 +181,21 @@ const CategoryDetails = () => {
                   required: true,
                   message: "Please enter category name.",
                 },
-              ]}
-            >
+              ]}>
               <Input
-                placeholder="Content Title"
+                placeholder="Category Name"
                 value={contentDetailsData?.title}
               />
             </Form.Item>
-
             <Form.Item label="Description" name="cat_description"
             rules={[
               {
                 required: true,
                 message: "Please enter category description .",
               },
-            ]}
-            >
+                ]}>
               <Input.TextArea
-                placeholder="Content Subtitle"
+                placeholder="Category Description"
                 autoSize={{ minRows: 2, maxRows: 8 }}
               />
             </Form.Item>
@@ -208,8 +205,7 @@ const CategoryDetails = () => {
             htmlType="submit"
             loading={isLoading}
             onClick={handleConfirm}
-            className={styles.ContentDetailsSubmit}
-          >
+            className={styles.ContentDetailsSubmit}>
            {contentDetailsData.id !== undefined ? "Update" :"Submit"} 
           </Button>
         </Form.Item>

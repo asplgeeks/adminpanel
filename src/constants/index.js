@@ -43,6 +43,14 @@ export const MENU_ITEMS = [
     activeKey: 'users',
   },
   {
+    title: "Category",
+    key: "side-Category",
+    linkTo: "/category",
+    // linkTo: "/users",
+    icon: <ContentIcon className="sideMenuIcon" />,
+    activeKey: 'category',
+  },
+  {
     title: "Content",
     key: "side-Content",
     linkTo: "/content",
@@ -75,6 +83,13 @@ export const MENU_ITEMS = [
     linkTo: "/thread",
     icon: <GroupIcon className="sideMenuIcon" style={{marginBottom:"5px"}} />,
     activeKey: 'thread',
+  },
+  {
+    title: "Thread Request",
+    key: "side-Thread Request",
+    linkTo: "/thread-request",
+    icon: <GroupIcon className="sideMenuIcon" style={{marginBottom:"5px"}} />,
+    activeKey: 'thread-request',
   },
   {
     title: "comment",
