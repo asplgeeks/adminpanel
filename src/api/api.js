@@ -196,7 +196,7 @@ var requestOptions = {
   return response;
 }
 
-export const  postCommetData = async(data) => {
+export const  postCommetData = async(data, row, page) => {
   // let base64 = require('base-64')
   console.log(data)
   const url = ENDPOINTS.content.POST.COMMENT;
@@ -210,9 +210,9 @@ var requestOptions = {
   body: JSON.stringify({
     comment_id:"",
     thread_id:data.id,
-    page_no:1,
-    page_limit:10,
-    sort_by:13,
+    page_no:page,
+    page_limit:row,
+    sort_by:"",
     search_by:"",
     filter_by:{
         file_type:"",
@@ -273,26 +273,10 @@ var requestOptions = {
   return response;
 }
 
-export const getCategoryList = async() => {
-  // const url = ENDPOINTS.sessions.GET.SESSION_CONTENT_LIST;
-  const url = ENDPOINTS.category.POST.CategoryList;
-  var myHeaders = new Headers();
-  myHeaders.append("Authorization", "Basic YXN1V29ya3M6ZXJnYmhqd2Z2Ymhqa2VndmZ2a2diaGpiaGprc2ZkZ3ZzZGpmdmhua2xobmprbGhqa1NKS0hoamtCSEpLYmhqa2hqa2tqQkhKdkhKS0JISks=");
-  myHeaders.append("Content-Type", "application/json");
-  
-var requestOptions = {
-  method: 'POST',
-  headers: myHeaders
-  // redirect: 'follow'
-};
-  const req = await fetch(url, requestOptions);
-  const response = await req.json();
-  return response;
-};
-
-export const UpdateCategoryStatus = async(data) => {
-  // const url = ENDPOINTS.sessions.GET.SESSION_CONTENT_LIST;
-  const url = ENDPOINTS.category.POST.UpdateStatus;
+export const  ADD_THREADS = async(data, id) => {
+  // let base64 = require('base-64')
+  console.log(id)
+  const url = ENDPOINTS.THREADLIST.POST.THREAD;
   var myHeaders = new Headers();
   myHeaders.append("Authorization", "Basic YXN1V29ya3M6ZXJnYmhqd2Z2Ymhqa2VndmZ2a2diaGpiaGprc2ZkZ3ZzZGpmdmhua2xobmprbGhqa1NKS0hoamtCSEpLYmhqa2hqa2tqQkhKdkhKS0JISks=");
   myHeaders.append("Content-Type", "application/json");
@@ -300,7 +284,47 @@ export const UpdateCategoryStatus = async(data) => {
 var requestOptions = {
   method: 'POST',
   headers: myHeaders,
-  body: JSON.stringify(data),
+  body: JSON.stringify({
+    userid:data.nids,
+    threadcategory_id:"1",
+    admin_note:"note",
+    display_name:data.ntitle,
+    display_desc:data.nbody,
+    moderator_ids:"40"
+}),
+  redirect: 'follow'
+};
+  const req = await fetch(url, requestOptions);
+  const response = await req.json();
+  return response;
+}
+
+export const addupdatethreaduserdetail = (data) => {
+  const url = ENDPOINTS.SELECT_THREAD_USER_CATEGORY.POST.THREADUSERLIST;
+  return ApiRequest(url, "POST", data);
+};
+
+export const  UPDATE_THREADS = async(data, id) => {
+  // let base64 = require('base-64')
+  console.log(id)
+  const url = ENDPOINTS.GETTHREAD.POST.UPDATETHREAD;
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Basic YXN1V29ya3M6ZXJnYmhqd2Z2Ymhqa2VndmZ2a2diaGpiaGprc2ZkZ3ZzZGpmdmhua2xobmprbGhqa1NKS0hoamtCSEpLYmhqa2hqa2tqQkhKdkhKS0JISks=");
+  myHeaders.append("Content-Type", "application/json");
+  
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: JSON.stringify({
+    threadid:data.nid,
+    threadcategory_id:data.threadcategory_id,
+    admin_note:"note",
+    display_name:data.ntitle,
+    display_desc:data.nbody,
+    moderator_ids:"40",
+    send_notification:data.nnotificationType
+}),
+  redirect: 'follow'
 };
   const req = await fetch(url, requestOptions);
   const response = await req.json();
@@ -341,4 +365,5 @@ var requestOptions = {
   const response = await req.json();
   return response;
 };
+
 

@@ -18,6 +18,8 @@ import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
 import { Button, Input, Alert, notification, Spin, Tabs, Upload } from "antd";
 
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -187,6 +189,10 @@ EnhancedTableHead.propTypes = {
 const EnhancedTableToolbar = (props) => {
   const { numSelected, threadList, setValue, value } = props;
   
+  // const options = threadList && threadList.map((output, index) => ({label : output.display_name, id: output.threadcategory_id}))
+
+  // const [inputValue, setInputValue] = React.useState('');
+
   const options = threadList && threadList.map((output, index) => ({label : output.display_name, id: output.id}))
 
   const [inputValue, setInputValue] = React.useState('');
@@ -266,9 +272,9 @@ export default function Comments(props) {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState('calories');
   const [selected, setSelected] = React.useState([]);
-  const [page, setPage] = React.useState(0);
+  const [page, setPage] = React.useState(1);
   const [dense, setDense] = React.useState(false);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [getComments, setComments] = React.useState([])
   const [opened, setDialogOpen] = React.useState(false)
   const [threadList, setThread] = React.useState([])
@@ -345,7 +351,7 @@ React.useEffect(() => {
 }, [])
 
   React.useEffect(() => {
-    API.postCommetData(value)
+    API.postCommetData(value, rowsPerPage, page)
     .then(response => response)
     .then(result => setComments(result && result.data && result.data.comments))
     .catch((ex) => {
@@ -355,14 +361,14 @@ React.useEffect(() => {
             placement: "bottomRight",
         });
     });
-  }, [value])
+  }, [value, page])
 
 
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    page > 0 ? Math.max(0, (0 + page) * rowsPerPage - rows.length) : 0;
 
   return (<div>
     <Box >
@@ -386,9 +392,9 @@ React.useEffect(() => {
             <TableBody>
               {/* if you don't need to support IE11, you can replace the `stableSort` call with:
                  rows.slice().sort(getComparator(order, orderBy)) */}
-              {stableSort(getComments, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row, index) => {
+              {/* {stableSort(getComments, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) */}
+                {getComments.map((row, index) => {
                   const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -432,7 +438,7 @@ React.useEffect(() => {
                     </TableRow>
                   );
                 })}
-              {emptyRows > 0 && (
+              {/* {emptyRows > 1 && (
                 <TableRow
                   style={{
                     height: (dense ? 33 : 53) * emptyRows,
@@ -440,19 +446,23 @@ React.useEffect(() => {
                 >
                   <TableCell colSpan={6} />
                 </TableRow>
-              )}
+              )} */}
             </TableBody>
           </Table>
         </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25]}
+        {/* <TablePagination
+          rowsPerPageOptions={[5, 15, 30]}
           component="div"
           count={getComments.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
-        />
+        /> */}
+          {/* <Stack spacing={2}> */}
+      <Pagination count={getComments.length} page={page} onChange={handleChangePage} shape="rounded" style={{float:"right"}}/>
+      {/* <Pagination count={10} variant="outlined" shape="rounded" /> */}
+    {/* </Stack> */}
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
