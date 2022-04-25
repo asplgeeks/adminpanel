@@ -11,6 +11,15 @@ import ContentIcon from "../assets/icons/reader-outline.svg";
 import SessionIcon from "../assets/icons/SessionsIcon.svg";
 import NotificationIcon from "../assets/icons/notifications-outline.svg";
 import GroupIcon from "../assets/icons/community.svg";
+import CommentIcon from "../assets/icons/comment-alt.svg";
+
+import CategoryIcon  from "../assets/icons/add-document.svg";
+
+
+import ThreadIcon from "../assets/icons/notebook.svg";
+
+import ThreadRequestIcon from "../assets/icons/megaphone.svg";
+
 
 import IMALogo from "../assets/icons/IMA-Logo.svg";
 
@@ -47,7 +56,7 @@ export const MENU_ITEMS = [
     key: "side-Category",
     linkTo: "/category",
     // linkTo: "/users",
-    icon: <ContentIcon className="sideMenuIcon" />,
+    icon: <CategoryIcon className="sideMenuIcon" />,
     activeKey: 'category',
   },
   {
@@ -81,21 +90,21 @@ export const MENU_ITEMS = [
     title: "Thread",
     key: "side-Thread",
     linkTo: "/thread",
-    icon: <GroupIcon className="sideMenuIcon" style={{marginBottom:"5px"}} />,
+    icon: <ThreadIcon className="sideMenuIcon" />,
     activeKey: 'thread',
   },
   {
     title: "Thread Request",
     key: "side-Thread Request",
     linkTo: "/thread-request",
-    icon: <GroupIcon className="sideMenuIcon" style={{marginBottom:"5px"}} />,
+    icon: <ThreadRequestIcon className="sideMenuIcon" />,
     activeKey: 'thread-request',
   },
   {
-    title: "comment",
+    title: "Comment",
     key: "side-comment",
     linkTo: "/comment",
-    icon: <ContentIcon className="sideMenuIcon" />,
+    icon: <CommentIcon className="sideMenuIcon" />,
     activeKey: 'comment',
   },
   {

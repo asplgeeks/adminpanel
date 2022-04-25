@@ -233,7 +233,7 @@
   .contentTable {
     padding-bottom: 1rem;
     cursor: pointer;
-    max-width: 1000px;
+    max-width: 100%;
 
     &Row {
       background-color: white;
@@ -243,9 +243,9 @@
 
       &:hover {
         background: #585858;
-        // * {
-        //   color: white;
-        // }
+        * {
+          color: white;
+        }
       }
 
       td {

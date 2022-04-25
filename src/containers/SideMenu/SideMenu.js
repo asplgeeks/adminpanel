@@ -21,6 +21,8 @@ const SideMenu = () => {
       .signOut()
       .then((resp) => {
         localStorage.setItem("imaAdmin-fbUserId", JSON.stringify(""));
+        localStorage.removeItem("user_id");
+
         history.push('/');
       })
       .catch(function (ex) {

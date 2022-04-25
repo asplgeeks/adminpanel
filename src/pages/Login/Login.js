@@ -1,11 +1,13 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { Input, Button, message } from "antd";
+import { Input, Button, notification,
+  message } from "antd";
 
 import { firebase_auth } from "../../constants";
 
 import IMALogo from "@src/assets/icons/IMA-Logo.svg";
 import HozapLogo from "@src/assets/icons/hozapLogo.svg";
+import API from "@src/api";
 
 import styles from "./Login.scss";
 
@@ -26,13 +28,35 @@ const Login = (props) => {
       firebase_auth
         .signInWithEmailAndPassword(inputData.email, inputData.pass)
         .then((data) => {
-          localStorage.setItem(
+//  console.log("user data", data)
+
+ API.get_user_login_details({email:inputData.email})
+ .then((response) => {
+  // console.log("success", response)
+
+   if (response.success === 1) {
+localStorage.setItem(
             "imaAdmin-fbUserId",
-            JSON.stringify(data.user.uid)
+            JSON.stringify(response.user.fbuid)
           );
+          localStorage.setItem( "user_id",JSON.stringify(response.user.id));
 
           history.push("/users");
           setButtonLoading(false);
+
+   } else {
+     notification.error({
+       message: "Something went wrong",
+       placement: "bottomRight",
+     });
+   }
+ })
+ .catch((ex) => {
+   notification.error({
+     message: ex,
+     placement: "bottomRight",
+   });
+ });
         })
         .catch((ex) => {
           message.error(ex.message);

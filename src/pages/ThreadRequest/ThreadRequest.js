@@ -35,7 +35,6 @@ const Content = () => {
   let searchInput = "";
   const dispatch = useDispatch();
   const contentData = useSelector((state) => state.globalStore.contentData);
-  const currentPage = useSelector((state) => state.globalStore.contentPage);
   const contentUpdated = useSelector((state) => state.globalStore.contentUpdated);
   const history = useHistory();
   const [isLoading, setIsLoading] = React.useState(false);
@@ -44,12 +43,19 @@ const Content = () => {
   const [reload_table, setReload] = React.useState(true);
   const [RequestDetailsData, seRequestDetailsData] = React.useState({});
 
-  
+  const [currentPage, setCurrentPage] = React.useState(1);
+
+  const [totalPages, setTotalPages] = React.useState(1);
+  // const  = useSelector(1);
+
 
   
   const [searchText, setSearchText] = React.useState();
   const [searchedColumn, setSearchedColumn] = React.useState();
   const fbUserId = JSON.parse(localStorage.getItem("imaAdmin-fbUserId"));
+  const user_id =localStorage.getItem("user_id");
+
+  
   const [isModalVisible, setIsModalVisible] = React.useState(false);
         const [form] = Form.useForm();
         const formRef = React.createRef();
@@ -190,7 +196,7 @@ const Content = () => {
        align: "left",
       width: "30%",
       key: "thread_name",
-      ...getColumnSearchProps("thread_name"),
+      // ...getColumnSearchProps("thread_name"),
     },
     {
       title: "Description",
@@ -253,16 +259,23 @@ const Content = () => {
   React.useEffect(() => {
     document.getElementsByTagName("main")[0].scrollTo(0, 0);
      const data={
-      page_no:1,
+      page_no:currentPage,
       page_limit:10,
       sort_by:"created_datetime",
       search_by:""
     }
       API.ThreadRequestList(data)
         .then((response) => {
-          // console.log("success", success)
           if (response.success === 1) {
+            // console.log("success", response.count)
+
             updateContentTable(response.data);
+            setTotalPages(response.count);
+
+            // currentPage
+
+            // totalPages
+            // count
           } else {
             notification.error({
               message: "Something went wrong",
@@ -278,7 +291,7 @@ const Content = () => {
             placement: "bottomRight",
           });
         });
-  }, [reload_table]);
+  }, [reload_table , currentPage]);
 
 
 
@@ -293,7 +306,7 @@ const Content = () => {
     formRef.current.validateFields().then((values) => {
       setIsLoading(true);
       values.request_id=RequestDetailsData.request_id !== undefined ? RequestDetailsData.request_id :"" 
-      values.updated_by="40"
+      values.updated_by=user_id
       API.UpdateThreadRequest(values)
         .then((response) => {
           if (response.success === 1) {
@@ -324,21 +337,18 @@ const Content = () => {
     });
   };
   return (<>
-   
+     {/* onCancel={() => handleCancel()} */}
     <Modal
      title="Update Thread Request"  
-      visible={isModalVisible}
-        onCancel={() => handleCancel()}>
+      visible={isModalVisible} 
+      footer={null}
+      >
         <Form
         className={styles.ContentDetailsForm}
         name="basic"
         layout={"vertical"}
         form={form}
         ref={formRef}
-        // initialValues={{
-        //   "admin_comment": RequestDetailsData && RequestDetailsData.admin_comment,
-        //   "status": RequestDetailsData && RequestDetailsData.status
-        // }}
         onFinishFailed={() => {
           message.error("Some required fields are missing.");
         }}
@@ -383,6 +393,14 @@ const Content = () => {
           >
             Submit
           </Button>
+          <Button
+            type=""
+            htmlType="button"
+            onClick={() => handleCancel()}
+            className={styles.ContentDetailsSubmit}
+            style={{marginLeft:"20px"}}>
+            Cancel
+          </Button>
         </Form.Item>
       </Form>
 
@@ -398,14 +416,12 @@ const Content = () => {
       </Button> */}
         </div>
       </div>
-  {console.log("currentPage", currentPage)}
+  {/* {console.log("total    000000000000Page", totalPages)} */}
       <Table
-        pagination={{
-          pageSize: 2,
-          position: ["bottomRight"],
-          current: currentPage,
+        pagination={{ pageSize: 10, position: ["bottomRight"],  current: currentPage, total:totalPages,
+       
           onChange: (page) => {
-            dispatch(actions.globalActions.setContentPage(page));
+            setCurrentPage(page)
           },
         }}
         size="middle"

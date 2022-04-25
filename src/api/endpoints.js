@@ -115,3 +115,12 @@ export const notifications = {
   }
 
 };
+
+
+
+export const Login = {
+  PUT :{
+    user : `http://65.1.145.79/user/getIdByEmail`,
+  }
+
+};

@@ -273,6 +273,42 @@ var requestOptions = {
   return response;
 }
 
+export const  getCategoryList = async() => {
+  // let base64 = require('base-64')
+  const url = ENDPOINTS.category.POST.CategoryList;
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Basic YXN1V29ya3M6ZXJnYmhqd2Z2Ymhqa2VndmZ2a2diaGpiaGprc2ZkZ3ZzZGpmdmhua2xobmprbGhqa1NKS0hoamtCSEpLYmhqa2hqa2tqQkhKdkhKS0JISks=");
+  myHeaders.append("Content-Type", "application/json");
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  // body: JSON.stringify(data),
+  redirect: 'follow'
+};
+  const req = await fetch(url, requestOptions);
+  const response = await req.json();
+  return response;
+}
+
+ 
+export const  UpdateCategoryStatus = async(data) => {
+  // let base64 = require('base-64')
+  console.log("data info", data)
+  const url = ENDPOINTS.category.POST.UpdateStatus;
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Basic YXN1V29ya3M6ZXJnYmhqd2Z2Ymhqa2VndmZ2a2diaGpiaGprc2ZkZ3ZzZGpmdmhua2xobmprbGhqa1NKS0hoamtCSEpLYmhqa2hqa2tqQkhKdkhKS0JISks=");
+  myHeaders.append("Content-Type", "application/json");
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: JSON.stringify(data),
+  redirect: 'follow'
+};
+  const req = await fetch(url, requestOptions);
+  const response = await req.json();
+  return response;
+}
+
 export const  ADD_THREADS = async(data, id) => {
   // let base64 = require('base-64')
   console.log(id)
@@ -358,6 +394,25 @@ export const UpdateThreadRequest = async(data) => {
   
 var requestOptions = {
   method: 'POST',
+  headers: myHeaders,
+  body: JSON.stringify(data),
+};
+  const req = await fetch(url, requestOptions);
+  const response = await req.json();
+  return response;
+};
+
+
+
+export const get_user_login_details = async(data) => {
+  // const url = ENDPOINTS.sessions.GET.SESSION_CONTENT_LIST;
+  const url = ENDPOINTS.Login.PUT.user;
+  var myHeaders = new Headers();
+  myHeaders.append("Authorization", "Basic YXN1V29ya3M6ZXJnYmhqd2Z2Ymhqa2VndmZ2a2diaGpiaGprc2ZkZ3ZzZGpmdmhua2xobmprbGhqa1NKS0hoamtCSEpLYmhqa2hqa2tqQkhKdkhKS0JISks=");
+  myHeaders.append("Content-Type", "application/json");
+  
+var requestOptions = {
+  method: 'PUT',
   headers: myHeaders,
   body: JSON.stringify(data),
 };
