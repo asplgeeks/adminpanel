@@ -102,10 +102,10 @@ export const MENU_ITEMS = [
   },
   {
     title: "Comment",
-    key: "side-comment",
+    key: "side-Comment",
     linkTo: "/comment",
     icon: <CommentIcon className="sideMenuIcon" />,
-    activeKey: 'comment',
+    activeKey: 'thread-comment',
   },
   {
     title: "Logout",
