@@ -394,7 +394,7 @@ React.useEffect(() => {
                  rows.slice().sort(getComparator(order, orderBy)) */}
               {/* {stableSort(getComments, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) */}
-                {getComments.map((row, index) => {
+                {getComments && getComments.map((row, index) => {
                   const isItemSelected = isSelected(row.name);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -460,7 +460,7 @@ React.useEffect(() => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         /> */}
           {/* <Stack spacing={2}> */}
-      <Pagination count={getComments.length} page={page} onChange={handleChangePage} shape="rounded" style={{float:"right"}}/>
+      <Pagination count={getComments && getComments.length} page={page} onChange={handleChangePage} shape="rounded" style={{float:"right"}}/>
       {/* <Pagination count={10} variant="outlined" shape="rounded" /> */}
     {/* </Stack> */}
       </Paper>
