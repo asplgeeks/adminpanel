@@ -243,7 +243,6 @@ const Content = () => {
         if (record.type.toLowerCase() === "video") {
           typeIcon = <VideoIcon />;
         }
-
         if (record.type.toLowerCase() === "podcast") {
           typeIcon = <PodcastIcon />;
         }
