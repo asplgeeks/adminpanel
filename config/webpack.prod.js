@@ -7,12 +7,16 @@ module.exports = {
   entry: ["./src/index.js"],
   mode: "production",
   devtool: "inline-source-map",
-  optimization: { usedExports: true },
-  output: {
-    path: OUTPUT,
-    publicPath: "./",
-    filename: "[name].bundle.js",
+  // optimization: { usedExports: true },
+  performance: {
+    hints: false,
   },
+  output: {
+    path: path.resolve(__dirname, '../build'),
+    filename: 'bundle.js',
+    chunkFilename: '[id].js',
+    publicPath: './'
+},
   resolve: {
     alias: {
       styles: path.resolve(__dirname, "./src/styles"),
