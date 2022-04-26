@@ -280,6 +280,7 @@ export default function Comments(props) {
   const [threadList, setThread] = React.useState([])
   const [value, setValue] = React.useState({label : 'Thread', id : 1});
 const [ ID, setId] = React.useState('')
+const [threadid, setthreadid] = React.useState('')
 console.log(value)
 
 console.log("threadList", threadList)
@@ -333,6 +334,7 @@ console.log("threadList", threadList)
 
 const handleDialogOpen = (detail) => {
   setId(detail.id)
+  setthreadid(detail.thread_id)
   setDialogOpen(!opened)
 }
 
@@ -373,7 +375,7 @@ React.useEffect(() => {
   return (<div>
     <Box >
       <Paper >
-      {opened === true ? <FullScreenDialog ID={ID}/> : ''}
+      {opened === true ? <FullScreenDialog ID={ID} threadid={threadid}/> : ''}
         <EnhancedTableToolbar numSelected={selected.length} threadList={threadList} setValue={setValue} value={value}/>
         <TableContainer>
           <Table

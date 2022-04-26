@@ -20,6 +20,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import API from "@src/api";
 
 export default function FormDialog(props) {
+  console.log(props)
   const { register, errors, setValue, handleSubmit, control } = useForm()
   const [open, setOpen] = React.useState(true);
 
@@ -33,7 +34,7 @@ export default function FormDialog(props) {
 
   const onSubmit = (data) => {
  console.log(data)
- API.deleteComment(data, props.ID)
+ API.deleteComment(data, props.ID, props.threadid)
  .then(response => response)
  .then(result => {
    if(result.success === 1) {

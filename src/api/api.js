@@ -2,6 +2,8 @@ import * as ENDPOINTS from "./endpoints";
 
 import { ApiRequest, ApiRequest1 } from "./utils";
 
+const userID = localStorage.getItem("user_id")
+console.log(userID)
 /**
  * Get all articles
  */
@@ -181,7 +183,7 @@ var requestOptions = {
   method: 'POST',
   headers: myHeaders,
   body: JSON.stringify({
-    userid:"",
+    userid:userID,
     status:"",
     page_no:0,
     page_limit:10,
@@ -229,7 +231,7 @@ var requestOptions = {
   return response;
 }
 
-export const  deleteComment = async(data, id) => {
+export const  deleteComment = async(data, id, threadid) => {
   // let base64 = require('base-64')
   console.log(id)
   const url = ENDPOINTS.comment.POST.COMMENT;
@@ -242,8 +244,8 @@ var requestOptions = {
   headers: myHeaders,
   body: JSON.stringify({
     comment_id:id,
-    userid:40,
-    thread_id:1,
+    userid:userID,
+    thread_id:threadid,
     delete_reason:data.reason
 }),
   redirect: 'follow'
